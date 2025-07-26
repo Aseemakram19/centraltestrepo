@@ -47,6 +47,18 @@ pipeline {
                 }
             }
         }
+        stage("new Docker Build & Push Image to DockerHub"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
+                       sh "docker build -t javamavenapp ."
+                       sh "docker tag javamavenapp aseemakram19/javamavenapp:latest "
+                       sh "docker push aseemakram19/javamavenapp:latest "
+                    }
+                }
+            }
+        }
+
         
         stage('Run Docker Container on 9000 port number') {
             steps {
